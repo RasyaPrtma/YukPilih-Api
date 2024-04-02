@@ -166,9 +166,10 @@ class PollController extends Controller
                 $poll->delete();
                 return response()->json([
                     'Success' => 'true',
-                    'message' => 'Polls Successfully deletedx'
+                    'message' => 'Polls Successfully deleted'
                 ],200);
             }
+            return response()->json(['message' => 'Data Not Found!'],404);
         }
         return response()->json(['message' => 'Unauthorized.'],401);
     }
