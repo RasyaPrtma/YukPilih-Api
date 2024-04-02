@@ -21,8 +21,8 @@ class PollController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $is_admin = User::find($user_id)->first();
-       if($is_admin->is_admin !== 0){
+        $is_admin = User::find($user_id);
+       if($is_admin->is_admin > 0){
         $poll = Polls::all('id','title','description','created_by','created_at');
         foreach($poll as $polling){
             $user = User::where('id',$polling->created_by)->first();
@@ -61,8 +61,8 @@ class PollController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
-        $is_admin = User::find($user_id)->first();
-        if($is_admin->is_admin !== 0){
+        $is_admin = User::find($user_id);
+        if($is_admin->is_admin > 0){
             // make validation
         $validator = Validator::make($request->all(),[
             'title' => 'string|required',
