@@ -107,6 +107,10 @@ class PollController extends Controller
         return response()->json(['message' => 'Unauthorized.'],401);
     }
     public function indexId(string $id){
+       $user = Auth::user()->id;
+       $is_admin = User::find($user);
+       $user_vote = Votes::where('user_id',$user)->first();
+       if($is_admin->is_admin > 0 || $user_vote !== null){
         $poll = Polls::where('id',$id)->first();
         if($poll !== null){
             $choice = Choices::where('poll_id',$poll->id)->get();
@@ -149,6 +153,8 @@ class PollController extends Controller
                 ]
             ],200);
         }
+       }
+       return response(['message' => 'Unauthorized.'],422);
     }
     
     public function Delete(string $id){
