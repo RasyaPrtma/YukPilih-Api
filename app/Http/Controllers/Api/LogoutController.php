@@ -13,13 +13,17 @@ class LogoutController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke()
     {
-            $token = Auth::user()->id;
-            PersonalAccessToken::findToken($token)->delete();
-            return response()->json([
-                'Success' => true,
-                'message' => 'successfully logged out'
-            ],200);
+            $User_id = Auth::user()->id;
+            $token = PersonalAccessToken::findToken($User_id);
+            if($token !== null){
+                $token->delete();
+                return response()->json([
+                    'Success' => true,
+                    'message' => 'successfully logged out'
+                ],200);
+            }
+
     }
 }
