@@ -25,7 +25,7 @@ class RegisterController extends Controller
 
         // check validation if fails
         if($validator->fails()){
-            return response($validator->errors(),400);
+            return response($validator->errors(),401);
         }
 
         $user = User::create([

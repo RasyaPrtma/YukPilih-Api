@@ -28,8 +28,8 @@ class LoginController extends Controller
 
         // Check If username valid
         $user = User::where('username',$request->username)->first();
-        $token = $user->createToken('token-name', ['*'], now()->addHours(24))->plainTextToken;
         if($user && Hash::check($request->password,$user->password)){
+        $token = $user->createToken('token-name', ['*'], now()->addHours(24))->plainTextToken;
             return response()->json([
                 'Success' => true,
                 'message' => [
@@ -38,12 +38,6 @@ class LoginController extends Controller
                 ]
             ],200);            
         }
-
-        return response()->json([
-            'Success' => false,
-            'message' => [
-                'User' => 'Username/Password Not Match'
-            ]
-        ],401);
+        return response()->json('Username/Password Not Match',404);
     }
 }
