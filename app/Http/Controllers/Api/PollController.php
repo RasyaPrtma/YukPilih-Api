@@ -22,8 +22,6 @@ class   PollController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $is_admin = User::find($user_id);
-        if ($is_admin->is_admin > 0) {
             $poll = Polls::all('id', 'title', 'description','deadline', 'created_by', 'created_at');
             foreach ($poll as $polling) {
                 $user = User::where('id', $polling->created_by)->first();
@@ -82,8 +80,6 @@ class   PollController extends Controller
                 ], 200);
             }
             return response()->json(['message' => 'Data Not Finded'], 404);
-        }
-        return response()->json(['message' => 'Unauthorized'], 401);
     }
     /**
      * Store a newly created resource in storage.
@@ -126,6 +122,7 @@ class   PollController extends Controller
                         'poll_id' => $poll->id
                     ]);
                 }
+                // return response
                 return response()->json([
                     'Success' => true,
                     'message' => [
